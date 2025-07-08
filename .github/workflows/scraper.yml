@@ -1,0 +1,35 @@
+name: CI Scraper
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Faz o Checkout
+      uses: actions/checkout@v3
+
+    - name: Arruma o Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Instala as Dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Roda o scraper
+      run: python main.py
+
+    - name: Envia o books.csv como artefato
+      uses: actions/upload-artifact@v4
+      with:
+        name: books-data
+        path: books.csv
