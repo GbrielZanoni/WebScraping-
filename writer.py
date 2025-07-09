@@ -1,7 +1,7 @@
 import csv
 
 FIELDNAMES = [
-    'Name', 'Price', 'UPC', 'Product Type',
+    'Name', 'Price', 'Rating', 'UPC', 'Product Type',
     'Price (excl. tax)', 'Price (incl. tax)',
     'Tax', 'Availability', 'Number of Reviews'
 ]
