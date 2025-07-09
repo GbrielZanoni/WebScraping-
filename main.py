@@ -2,6 +2,7 @@ from driver import setup_driver
 from scraper import get_book_links, extract_book_info
 from writer import create_csv_file
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from analyzer import analyze_books
 
 def scrape_books():
     base_url = "https://books.toscrape.com/catalogue/page-{}.html"
@@ -43,3 +44,4 @@ def scrape_books():
 
 if __name__ == "__main__":
     scrape_books()
+    analyze_books()

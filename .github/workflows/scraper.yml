@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Roda o scraper
+    - name: Roda o scraper e análise
       run: python main.py
 
     - name: Envia o books.csv como artefato
@@ -33,3 +33,9 @@ jobs:
       with:
         name: books-data
         path: books.csv
+
+    - name: Envia o log da análise
+      uses: actions/upload-artifact@v4
+      with:
+        name: analysis-log
+        path: analysis_log.txt
