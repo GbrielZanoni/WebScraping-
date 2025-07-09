@@ -1,6 +1,7 @@
 from driver import setup_driver
 from scraper import get_book_links, extract_book_info
 from writer import create_csv_file
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def scrape_books():
     base_url = "https://books.toscrape.com/catalogue/page-{}.html"
@@ -23,11 +24,14 @@ def scrape_books():
 
             print(f"Livros encontrados: {len(book_links)}")
 
-            for link in book_links:
-                book_info = extract_book_info(driver, link)
-                writer.writerow(book_info)
-                book_count += 1
-                print(f"Livro {book_count} salvo: {book_info['Name']}")
+            with ThreadPoolExecutor(max_workers=5) as executor:
+                futures = {executor.submit(extract_book_info, link): link for link in book_links}
+                for future in as_completed(futures):
+                    book_info = future.result()
+                    if book_info:
+                        writer.writerow(book_info)
+                        book_count += 1
+                        print(f"Livro {book_count} salvo: {book_info['Name']}")
 
             page_count += 1
 
